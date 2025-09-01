@@ -1,0 +1,12 @@
+package com.Biblioteca.Livros.Repository;
+
+import com.Biblioteca.Livros.Model.Books;
+import com.Biblioteca.Livros.Model.Users;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface UsersRepository extends JpaRepository<Users, Long> {
+
+    Optional<Books> findBookByUsers(Users users);
+}
