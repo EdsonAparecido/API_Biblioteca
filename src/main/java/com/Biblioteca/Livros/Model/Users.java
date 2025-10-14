@@ -1,32 +1,37 @@
 package com.Biblioteca.Livros.Model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "tb_Cliente")
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column(nullable = false)
-    String nome;
+    private String name;
 
     @Column(nullable = false, unique = true)
-    String email;
+    private String email;
 
     @Column(nullable = false, unique = true)
-    double numero;
+    private String numero;
 
-    @OneToOne
-    @JoinColumn(name = "livro")
+    @Column
+    private LocalDate dataDevolucao;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "books_name")
     private Books books;
 
     @Enumerated(EnumType.STRING)
