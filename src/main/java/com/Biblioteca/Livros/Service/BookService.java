@@ -1,11 +1,16 @@
 package com.Biblioteca.Livros.Service;
 
+import com.Biblioteca.Livros.DTO.BookCreateDTO;
+import com.Biblioteca.Livros.DTO.BookUpdateDTO;
+import com.Biblioteca.Livros.Mapper.BookMapper;
 import com.Biblioteca.Livros.Model.Book;
 import com.Biblioteca.Livros.Repository.BookRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+import static org.springframework.util.StringUtils.hasText;
 
 @Service
 public class BookService {
@@ -15,7 +20,8 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    public void createBook(Book book){
+    public void createBook(BookCreateDTO bookCreateDTO){
+        Book book = BookMapper.DTOCreateToBook(bookCreateDTO);
         bookRepository.save(book);
     }
 
@@ -26,19 +32,20 @@ public class BookService {
         return bookRepository.findById(id);
     }
 
-    public void updateBook(Long id, Book book){
+    public void updateBook(Long id, BookUpdateDTO bookUpdateDTO){
+        Book book = BookMapper.DTOUpdateToBook(bookUpdateDTO);
         Book idBook = bookRepository.findById(id)
                 .orElseThrow();
         Book bookUpdate = Book.builder()
                 .id(id)
-                .name(book.getName() != null ? book.getName() : idBook.getName())
-                .autor(book.getAutor() != null ? book.getAutor() : idBook.getAutor())
+                .name(hasText(book.getName()) ? bookUpdateDTO.getName() : idBook.getName())
+                .autor(hasText(book.getAutor()) ? bookUpdateDTO.getAutor() : idBook.getAutor())
                 .build();
         bookRepository.save(bookUpdate);
     }
 
-    public void deleteBook(Book book){
-        bookRepository.delete(book);
+    public void deleteBook(Long id){
+        bookRepository.deleteById(id);
     }
 
 }
