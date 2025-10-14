@@ -6,7 +6,7 @@ import com.Biblioteca.Livros.Model.TypeUser;
 import com.Biblioteca.Livros.Model.User;
 
 public class UserMapper {
-    public static User DTOCreateToModel(UserCreateDTO userCreateDTO){
+    public static User DTOCreateToUser(UserCreateDTO userCreateDTO){
         return User.builder()
                 .name(userCreateDTO.getName())
                 .email(userCreateDTO.getEmail())
@@ -14,7 +14,7 @@ public class UserMapper {
                 .typeUser(userCreateDTO.getTypeUser() != null ? userCreateDTO.getTypeUser() : TypeUser.USER)
                 .build();
     }
-    public static User DTOUpdateToModel(UserUpdateDTO userUpdateDTO){
+    public static User DTOUpdateToUser(UserUpdateDTO userUpdateDTO){
         return User.builder()
                 .name(userUpdateDTO.getName())
                 .email(userUpdateDTO.getEmail())
