@@ -6,7 +6,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface BooksRepository extends JpaRepository<Books, Long> {
-
-    Optional<Users> findUsersByBooks(Books books);
-}
+public interface BooksRepository extends JpaRepository<Books, Long> {}
