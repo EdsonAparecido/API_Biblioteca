@@ -22,7 +22,7 @@ public class UserService {
     }
 
     public void createUser(UserCreateDTO userCreateDTO) {
-        User user = UserMapper.DTOCreateToModel(userCreateDTO);
+        User user = UserMapper.DTOCreateToUser(userCreateDTO);
         userRepository.save(user);
     }
 
@@ -34,7 +34,7 @@ public class UserService {
     }
 
     public void updateUser(Long id, UserUpdateDTO userUpdateDTO){
-        User user = UserMapper.DTOUpdateToModel(userUpdateDTO);
+        User user = UserMapper.DTOUpdateToUser(userUpdateDTO);
         User idUser = userRepository.findById(id)
                 .orElseThrow();
 
