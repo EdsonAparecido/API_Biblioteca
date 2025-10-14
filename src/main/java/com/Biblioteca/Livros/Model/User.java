@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Users {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,8 +32,8 @@ public class Users {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "books_name")
-    private Books books;
+    private Book book;
 
     @Enumerated(EnumType.STRING)
-    private TypeUsers typeUsers;
+    private TypeUser typeUser;
 }

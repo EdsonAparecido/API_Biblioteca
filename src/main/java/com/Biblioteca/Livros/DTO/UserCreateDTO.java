@@ -1,6 +1,6 @@
 package com.Biblioteca.Livros.DTO;
 
-import com.Biblioteca.Livros.Model.TypeUsers;
+import com.Biblioteca.Livros.Model.TypeUser;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class UsersCreateDTO {
+public class UserCreateDTO {
 
     @NotBlank(message = "Nome é obrigatório e não pode estar vazio")
     @Size(min=1, max=100, message = "Nome precisa conter de 1 a 100 caracteres.")
@@ -22,5 +22,5 @@ public class UsersCreateDTO {
     @NotBlank
     private String numero;
 
-    private TypeUsers typeUsers;
+    private TypeUser typeUser;
 }

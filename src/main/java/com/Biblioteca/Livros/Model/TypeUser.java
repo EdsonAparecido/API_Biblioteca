@@ -1,6 +1,6 @@
 package com.Biblioteca.Livros.Model;
 
-public enum TypeUsers {
+public enum TypeUser {
     USER,
     ADMIN
 }

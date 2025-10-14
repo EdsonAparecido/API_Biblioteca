@@ -1,9 +1,9 @@
 package com.Biblioteca.Livros.Controller;
 
-import com.Biblioteca.Livros.DTO.UsersCreateDTO;
-import com.Biblioteca.Livros.DTO.UsersUpdateDTO;
-import com.Biblioteca.Livros.Model.Users;
-import com.Biblioteca.Livros.Service.UsersService;
+import com.Biblioteca.Livros.DTO.UserCreateDTO;
+import com.Biblioteca.Livros.DTO.UserUpdateDTO;
+import com.Biblioteca.Livros.Model.User;
+import com.Biblioteca.Livros.Service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,39 +12,39 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/Users")
+@RequestMapping("/Home/User")
 public class UserController {
 
-    private UsersService usersService;
+    private UserService userService;
 
-    public UserController(UsersService usersService){
-        this.usersService = usersService;
+    public UserController(UserService userService){
+        this.userService = userService;
     }
 
-    @PostMapping
-    public ResponseEntity<Void> newUser(@Valid @RequestBody UsersCreateDTO usersCreateDTO){
-        usersService.createUsers(usersCreateDTO);
+    @PostMapping("/create")
+    public ResponseEntity<Void> newUser(@Valid @RequestBody UserCreateDTO userCreateDTO){
+        userService.createUser(userCreateDTO);
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping
+    public List<User> readUser(){
+        return userService.readUser();
+    }
     @GetMapping("/{id}")
-    public Optional<Users> readUserById(@PathVariable Long id){
-        return usersService.readUsersById(id);
-    }
-    @GetMapping()
-    public List<Users> readUser(){
-        return usersService.readUsers();
+    public Optional<User> readUserById(@PathVariable Long id){
+        return userService.readUserById(id);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Void> updateUser(@PathVariable Long id,@Valid @RequestBody UsersUpdateDTO usersUpdateDTO){
-        usersService.updateUsers(id, usersUpdateDTO);
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Void> updateUser(@PathVariable Long id,@Valid @RequestBody UserUpdateDTO userUpdateDTO){
+        userService.updateUser(id, userUpdateDTO);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public void deleteUser(@PathVariable Long id){
-        usersService.deleteUsers(id);
+        userService.deleteUser(id);
     }
 
 }
