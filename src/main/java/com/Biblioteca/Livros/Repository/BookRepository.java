@@ -1,6 +1,10 @@
 package com.Biblioteca.Livros.Repository;
-
 import com.Biblioteca.Livros.Model.Book;
+import com.Biblioteca.Livros.Model.TypeStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface BookRepository extends JpaRepository<Book, Long> {}
+import java.util.Optional;
+
+public interface BookRepository extends JpaRepository<Book, Long>{
+    Optional<Boolean> existsByIdAndStatus(Long id, TypeStatus typeStatus);
+}
