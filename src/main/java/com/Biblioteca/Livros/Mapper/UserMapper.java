@@ -1,7 +1,7 @@
 package com.Biblioteca.Livros.Mapper;
 
-import com.Biblioteca.Livros.DTO.UserCreateDTO;
-import com.Biblioteca.Livros.DTO.UserUpdateDTO;
+import com.Biblioteca.Livros.DTO.User.UserCreateDTO;
+import com.Biblioteca.Livros.DTO.User.UserUpdateDTO;
 import com.Biblioteca.Livros.Model.TypeUser;
 import com.Biblioteca.Livros.Model.User;
 
