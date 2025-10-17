@@ -1,4 +1,4 @@
-package com.Biblioteca.Livros.DTO;
+package com.Biblioteca.Livros.DTO.User;
 
 import jakarta.validation.constraints.Pattern;
 import lombok.Builder;

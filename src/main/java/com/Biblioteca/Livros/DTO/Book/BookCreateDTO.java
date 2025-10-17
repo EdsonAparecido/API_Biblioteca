@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class EmprestimoDTO {
+public class BookCreateDTO {
 
     @NotBlank(message = "Nome é obrigatório e não pode estar vazio")
     @Size(min=1, max=100, message = "Nome precisa conter de 1 a 100 caracteres.")
