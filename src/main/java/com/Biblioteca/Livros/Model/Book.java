@@ -24,7 +24,7 @@ public class Book {
     @Column(nullable = false)
     private String autor;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Enumerated(EnumType.STRING)
+    private TypeStatus status;
+
 }
