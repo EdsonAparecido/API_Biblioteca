@@ -1,4 +1,4 @@
-package com.Biblioteca.Livros.DTO;
+package com.Biblioteca.Livros.DTO.Book;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class BookCreateDTO {
+public class EmprestimoDTO {
 
     @NotBlank(message = "Nome é obrigatório e não pode estar vazio")
     @Size(min=1, max=100, message = "Nome precisa conter de 1 a 100 caracteres.")
