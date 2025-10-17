@@ -1,7 +1,7 @@
 package com.Biblioteca.Livros.Controller;
 
-import com.Biblioteca.Livros.DTO.BookCreateDTO;
-import com.Biblioteca.Livros.DTO.BookUpdateDTO;
+import com.Biblioteca.Livros.DTO.Book.BookCreateDTO;
+import com.Biblioteca.Livros.DTO.Book.BookUpdateDTO;
 import com.Biblioteca.Livros.Model.Book;
 import com.Biblioteca.Livros.Service.BookService;
 import jakarta.validation.Valid;
