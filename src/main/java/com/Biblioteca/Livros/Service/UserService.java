@@ -1,8 +1,9 @@
 package com.Biblioteca.Livros.Service;
 
-import com.Biblioteca.Livros.DTO.UserCreateDTO;
-import com.Biblioteca.Livros.DTO.UserUpdateDTO;
+import com.Biblioteca.Livros.DTO.User.UserCreateDTO;
+import com.Biblioteca.Livros.DTO.User.UserUpdateDTO;
 import com.Biblioteca.Livros.Mapper.UserMapper;
+import com.Biblioteca.Livros.Model.Book;
 import com.Biblioteca.Livros.Model.User;
 import com.Biblioteca.Livros.Repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -48,8 +49,28 @@ public class UserService {
 
         userRepository.save(userUpdate);
     }
-
     public void deleteUser(Long id){
         userRepository.deleteById(id);
     }
+
+    public Optional<User> bookIsPresent(Long id){
+        return userRepository.findByIdAndBookIsNull(id);
+    }
+
+    public void updateUserIdBook(Long id, Book book){
+        User idUser = userRepository.findById(id)
+                .orElseThrow();
+
+        User userUpdate = User.builder()
+                .id(id)
+                .name(idUser.getName())
+                .email(idUser.getEmail())
+                .numero(idUser.getNumero())
+                .typeUser(idUser.getTypeUser())
+                .book(book)
+                .build();
+
+        userRepository.save(userUpdate);
+    }
+
 }
