@@ -1,6 +1,6 @@
-package com.Biblioteca.Livros.Model;
+package com.Biblioteca.Livros.Model.Enum;
 
-public enum TypeStatus {
+public enum TypeStatusBook {
     AVAILABLE,
     NOT_AVAILABLE
 }
