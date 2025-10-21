@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "tb_Emprestimo")
 @Data
@@ -25,5 +27,11 @@ public class Emprestimo {
     @ManyToOne
     @JoinColumn
     private Book book;
+
+    @Column
+    private LocalDateTime dataEmprestimo;
+
+    @Column
+    private LocalDateTime dataDevolucao;
 
 }
