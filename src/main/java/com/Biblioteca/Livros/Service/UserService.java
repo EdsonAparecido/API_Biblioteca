@@ -53,7 +53,7 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public Optional<User> bookIsPresent(Long id){
+    public Optional<User> UserHaveABook(Long id){
         return userRepository.findByIdAndBookIsNull(id);
     }
 
@@ -73,4 +73,7 @@ public class UserService {
         userRepository.save(userUpdate);
     }
 
+    public Optional<Boolean> comparetionBook(Long idUser, Book book){
+        return userRepository.existsByIdAndBook(idUser, book);
+    }
 }
