@@ -4,8 +4,7 @@ import com.Biblioteca.Livros.DTO.Book.BookCreateDTO;
 import com.Biblioteca.Livros.DTO.Book.BookUpdateDTO;
 import com.Biblioteca.Livros.Mapper.BookMapper;
 import com.Biblioteca.Livros.Model.Book;
-import com.Biblioteca.Livros.Model.TypeStatus;
-import com.Biblioteca.Livros.Model.User;
+import com.Biblioteca.Livros.Model.Enum.TypeStatusBook;
 import com.Biblioteca.Livros.Repository.BookRepository;
 import org.springframework.stereotype.Service;
 
@@ -52,16 +51,16 @@ public class BookService {
     public void deleteBook(Long id) {
         bookRepository.deleteById(id);
     }
-    public Optional<Boolean> existBookByStatus(Long id, TypeStatus typeStatus){
-        return bookRepository.existsByIdAndStatus(id, typeStatus);
+    public Optional<Boolean> existBookByStatus(Long id, TypeStatusBook typeStatusBook){
+        return bookRepository.existsByIdAndStatus(id, typeStatusBook);
     }
 
-    public void updateBookStatus(Book book){
+    public void updateBookStatus(Book book, TypeStatusBook typeStatusBook){
         Book bookUpdateStatus = Book.builder()
                 .id(book.getId())
                 .name(book.getName())
                 .autor(book.getAutor())
-                .status(TypeStatus.NOT_AVAILABLE)
+                .status(typeStatusBook)
                 .build();
 
         bookRepository.save(bookUpdateStatus);
