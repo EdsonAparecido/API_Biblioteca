@@ -10,7 +10,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/Home/Emprestimo")
+@RequestMapping("/Home")
 public class EmprestimoController {
 
     private EmprestimoService emprestimoService;
@@ -19,9 +19,16 @@ public class EmprestimoController {
         this.emprestimoService = emprestimoService;
     }
 
-    @PostMapping
+    @PostMapping("/Emprestimo")
     public ResponseEntity<Void> newEmprestimo(@Valid @RequestBody EmprestimoDTO emprestimoDTO){
         emprestimoService.emprestarLivro(emprestimoDTO);
+        return ResponseEntity.ok().build();
+    }
+
+
+    @PostMapping("/Devolucao")
+    public ResponseEntity<Void> devolutionEmprestimo(@Valid @RequestBody EmprestimoDTO emprestimoDTO){
+        emprestimoService.devolverLivro(emprestimoDTO);
         return ResponseEntity.ok().build();
     }
 
