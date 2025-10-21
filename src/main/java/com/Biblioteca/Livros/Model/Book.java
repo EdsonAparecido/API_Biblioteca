@@ -1,5 +1,6 @@
 package com.Biblioteca.Livros.Model;
 
+import com.Biblioteca.Livros.Model.Enum.TypeStatusBook;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,6 +26,6 @@ public class Book {
     private String autor;
 
     @Enumerated(EnumType.STRING)
-    private TypeStatus status;
+    private TypeStatusBook status;
 
 }

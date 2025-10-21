@@ -1,6 +1,6 @@
 package com.Biblioteca.Livros.DTO.User;
 
-import com.Biblioteca.Livros.Model.TypeUser;
+import com.Biblioteca.Livros.Model.Enum.TypeUser;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;

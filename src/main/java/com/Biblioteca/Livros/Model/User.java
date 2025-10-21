@@ -1,9 +1,8 @@
 package com.Biblioteca.Livros.Model;
 
+import com.Biblioteca.Livros.Model.Enum.TypeUser;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "tb_Cliente")
