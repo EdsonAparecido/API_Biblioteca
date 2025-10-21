@@ -3,10 +3,14 @@ package com.Biblioteca.Livros.Service;
 import com.Biblioteca.Livros.DTO.EmprestimoDTO;
 import com.Biblioteca.Livros.Model.Book;
 import com.Biblioteca.Livros.Model.Emprestimo;
-import com.Biblioteca.Livros.Model.TypeStatus;
+import com.Biblioteca.Livros.Model.Enum.TypeStatusBook;
 import com.Biblioteca.Livros.Model.User;
 import com.Biblioteca.Livros.Repository.EmprestimoRepository;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 @Service
 public class EmprestimoService {
@@ -21,26 +25,58 @@ public class EmprestimoService {
         this.userService = userService;
     }
 
-    public void emprestarLivro(EmprestimoDTO emprestimoDTO){
+    public void createEmprestimo(Emprestimo emprestimo){
+        emprestimoRepository.save(emprestimo);
+    }
+    public Optional<Emprestimo> searchByBookAndUser(Book book){
+        return emprestimoRepository.findByBookAndDataDevolucaoIsNull(book);
+    }
 
+    public void emprestarLivro(EmprestimoDTO emprestimoDTO){
         Book book = bookService.readBookById(emprestimoDTO.getBookID())
                 .orElseThrow();
-
-        bookService.existBookByStatus(emprestimoDTO.getBookID(), TypeStatus.AVAILABLE)
+        bookService.existBookByStatus(emprestimoDTO.getBookID(), TypeStatusBook.AVAILABLE)
+                .orElseThrow();
+        userService.readUserById(emprestimoDTO.getUserID())
+                .orElseThrow();
+        User user = userService.UserHaveABook(emprestimoDTO.getUserID())
                 .orElseThrow();
 
-        User user = userService.bookIsPresent(emprestimoDTO.getUserID())
-                .orElseThrow();
-
-        bookService.updateBookStatus(book);
+        bookService.updateBookStatus(book, TypeStatusBook.NOT_AVAILABLE);
         userService.updateUserIdBook(emprestimoDTO.getUserID(), book);
 
         Emprestimo emprestimo = Emprestimo.builder()
                 .user(user)
                 .book(book)
+                .dataEmprestimo(LocalDateTime.now())
                 .build();
 
-        emprestimoRepository.save(emprestimo);
-
+        createEmprestimo(emprestimo);
     }
+
+
+    public void devolverLivro(EmprestimoDTO emprestimoDTO){
+        Book book = bookService.readBookById(emprestimoDTO.getBookID())
+                .orElseThrow();
+        User user = userService.readUserById(emprestimoDTO.getUserID())
+                .orElseThrow();
+        userService.comparetionBook(emprestimoDTO.getUserID(), book)
+                .orElseThrow();
+
+        Emprestimo emprestimoSearch = searchByBookAndUser(book)
+                .orElseThrow();
+
+        Emprestimo emprestimo = Emprestimo.builder()
+                .id(emprestimoSearch.getId())
+                .user(emprestimoSearch.getUser())
+                .book(emprestimoSearch.getBook())
+                .dataEmprestimo(emprestimoSearch.getDataEmprestimo())
+                .dataDevolucao(LocalDateTime.now())
+                .build();
+
+        bookService.updateBookStatus(book, TypeStatusBook.AVAILABLE);
+        userService.updateUserIdBook(emprestimoDTO.getUserID(), null);
+        createEmprestimo(emprestimo);
+    }
+
 }
