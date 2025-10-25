@@ -9,7 +9,6 @@ import com.Biblioteca.Livros.Repository.EmprestimoRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Service
@@ -28,7 +27,7 @@ public class EmprestimoService {
     public void createEmprestimo(Emprestimo emprestimo){
         emprestimoRepository.save(emprestimo);
     }
-    public Optional<Emprestimo> searchByBookAndUser(Book book){
+    public Optional<Emprestimo> searchByBookAndDevolucao(Book book){
         return emprestimoRepository.findByBookAndDataDevolucaoIsNull(book);
     }
 
@@ -63,7 +62,7 @@ public class EmprestimoService {
         userService.comparetionBook(emprestimoDTO.getUserID(), book)
                 .orElseThrow();
 
-        Emprestimo emprestimoSearch = searchByBookAndUser(book)
+        Emprestimo emprestimoSearch = searchByBookAndDevolucao(book)
                 .orElseThrow();
 
         Emprestimo emprestimo = Emprestimo.builder()
