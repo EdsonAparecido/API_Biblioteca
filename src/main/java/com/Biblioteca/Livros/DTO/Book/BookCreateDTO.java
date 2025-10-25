@@ -15,6 +15,6 @@ public class BookCreateDTO {
     @Size(min=1, max=100, message = "Nome precisa conter de 1 a 100 caracteres.")
     private String name;
 
-    @NotBlank
+    @NotBlank(message = "Autor é obrigatório e não pode estar vazio.")
     private String autor;
 }

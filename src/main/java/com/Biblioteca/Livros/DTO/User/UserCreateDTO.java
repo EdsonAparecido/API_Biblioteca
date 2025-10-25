@@ -12,14 +12,14 @@ import lombok.Setter;
 @Builder
 public class UserCreateDTO {
 
-    @NotBlank(message = "Nome é obrigatório e não pode estar vazio")
+    @NotBlank(message = "Nome é obrigatório e não pode estar vazio.")
     @Size(min=1, max=100, message = "Nome precisa conter de 1 a 100 caracteres.")
     private String name;
 
-    @NotBlank
+    @NotBlank(message = "E-mail é obrigatório e não pode estar vazio.")
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "Numero é obrigatório e não pode estar vazio.")
     private String numero;
 
     private TypeUser typeUser;
