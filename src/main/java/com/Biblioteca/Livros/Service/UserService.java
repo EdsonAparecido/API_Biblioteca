@@ -2,6 +2,7 @@ package com.Biblioteca.Livros.Service;
 
 import com.Biblioteca.Livros.DTO.User.UserCreateDTO;
 import com.Biblioteca.Livros.DTO.User.UserUpdateDTO;
+import com.Biblioteca.Livros.Exceptions.IdNotExists;
 import com.Biblioteca.Livros.Mapper.UserMapper;
 import com.Biblioteca.Livros.Model.Book;
 import com.Biblioteca.Livros.Model.User;
@@ -37,7 +38,7 @@ public class UserService {
     public void updateUser(Long id, UserUpdateDTO userUpdateDTO){
         User user = UserMapper.DTOUpdateToUser(userUpdateDTO);
         User idUser = userRepository.findById(id)
-                .orElseThrow();
+                .orElseThrow(() -> new IdNotExists("Não existe usuário com o id: " + id));
 
         User userUpdate = User.builder()
                 .id(id)
@@ -53,13 +54,13 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public Optional<User> UserHaveABook(Long id){
+    public Optional<User> UserNotHaveABook(Long id){
         return userRepository.findByIdAndBookIsNull(id);
     }
 
     public void updateUserIdBook(Long id, Book book){
         User idUser = userRepository.findById(id)
-                .orElseThrow();
+                .orElseThrow(() -> new IdNotExists("Não existe usuário com o id: " + id));
 
         User userUpdate = User.builder()
                 .id(id)
@@ -73,7 +74,7 @@ public class UserService {
         userRepository.save(userUpdate);
     }
 
-    public Optional<Boolean> comparetionBook(Long idUser, Book book){
+    public Optional<Boolean> existsBookReadByIdUser(Long idUser, Book book){
         return userRepository.existsByIdAndBook(idUser, book);
     }
 }

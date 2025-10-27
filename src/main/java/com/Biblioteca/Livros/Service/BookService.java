@@ -2,6 +2,7 @@ package com.Biblioteca.Livros.Service;
 
 import com.Biblioteca.Livros.DTO.Book.BookCreateDTO;
 import com.Biblioteca.Livros.DTO.Book.BookUpdateDTO;
+import com.Biblioteca.Livros.Exceptions.IdNotExists;
 import com.Biblioteca.Livros.Mapper.BookMapper;
 import com.Biblioteca.Livros.Model.Book;
 import com.Biblioteca.Livros.Model.Enum.TypeStatusBook;
@@ -38,7 +39,8 @@ public class BookService {
     public void updateBook(Long id, BookUpdateDTO bookUpdateDTO) {
         Book book = BookMapper.DTOUpdateToBook(bookUpdateDTO);
         Book idBook = bookRepository.findById(id)
-                .orElseThrow();
+                .orElseThrow(() -> new IdNotExists("Não existe livro com o id: " + id));
+
         Book bookUpdate = Book.builder()
                 .id(id)
                 .name(hasText(book.getName()) ? bookUpdateDTO.getName() : idBook.getName())
@@ -51,7 +53,7 @@ public class BookService {
     public void deleteBook(Long id) {
         bookRepository.deleteById(id);
     }
-    public Optional<Boolean> existBookByStatus(Long id, TypeStatusBook typeStatusBook){
+    public Optional<Boolean> existBookAndStatus(Long id, TypeStatusBook typeStatusBook){
         return bookRepository.existsByIdAndStatus(id, typeStatusBook);
     }
 

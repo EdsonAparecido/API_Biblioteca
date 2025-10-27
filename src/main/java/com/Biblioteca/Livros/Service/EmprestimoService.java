@@ -1,6 +1,7 @@
 package com.Biblioteca.Livros.Service;
 
 import com.Biblioteca.Livros.DTO.EmprestimoDTO;
+import com.Biblioteca.Livros.Exceptions.*;
 import com.Biblioteca.Livros.Model.Book;
 import com.Biblioteca.Livros.Model.Emprestimo;
 import com.Biblioteca.Livros.Model.Enum.TypeStatusBook;
@@ -27,19 +28,22 @@ public class EmprestimoService {
     public void createEmprestimo(Emprestimo emprestimo){
         emprestimoRepository.save(emprestimo);
     }
-    public Optional<Emprestimo> searchByBookAndDevolucao(Book book){
+    public Optional<Emprestimo> searchByBookAndDevolucaoIsNull(Book book){
         return emprestimoRepository.findByBookAndDataDevolucaoIsNull(book);
     }
 
     public void emprestarLivro(EmprestimoDTO emprestimoDTO){
         Book book = bookService.readBookById(emprestimoDTO.getBookID())
-                .orElseThrow();
-        bookService.existBookByStatus(emprestimoDTO.getBookID(), TypeStatusBook.AVAILABLE)
-                .orElseThrow();
+                .orElseThrow(() -> new IdNotExists("Não existe livro com o id: " + emprestimoDTO.getBookID()));
+
+        bookService.existBookAndStatus(emprestimoDTO.getBookID(), TypeStatusBook.AVAILABLE)
+                .orElseThrow(BookNotAvailable::new);
+
         userService.readUserById(emprestimoDTO.getUserID())
-                .orElseThrow();
-        User user = userService.UserHaveABook(emprestimoDTO.getUserID())
-                .orElseThrow();
+                .orElseThrow(() -> new IdNotExists("Não existe usuário com o id: " + emprestimoDTO.getUserID()));
+
+        User user = userService.UserNotHaveABook(emprestimoDTO.getUserID())
+                .orElseThrow(UserHaveAbook::new);
 
         bookService.updateBookStatus(book, TypeStatusBook.NOT_AVAILABLE);
         userService.updateUserIdBook(emprestimoDTO.getUserID(), book);
@@ -56,14 +60,16 @@ public class EmprestimoService {
 
     public void devolverLivro(EmprestimoDTO emprestimoDTO){
         Book book = bookService.readBookById(emprestimoDTO.getBookID())
-                .orElseThrow();
-        User user = userService.readUserById(emprestimoDTO.getUserID())
-                .orElseThrow();
-        userService.comparetionBook(emprestimoDTO.getUserID(), book)
-                .orElseThrow();
+                .orElseThrow(() -> new IdNotExists("Não existe livro com o id: " + emprestimoDTO.getBookID()));
 
-        Emprestimo emprestimoSearch = searchByBookAndDevolucao(book)
-                .orElseThrow();
+        User user = userService.readUserById(emprestimoDTO.getUserID())
+                .orElseThrow(() -> new IdNotExists("Não existe usuário com o id: " + emprestimoDTO.getUserID()));
+
+        userService.existsBookReadByIdUser(emprestimoDTO.getUserID(), book)
+                .orElseThrow(UserDontBook::new);
+
+        Emprestimo emprestimoSearch = searchByBookAndDevolucaoIsNull(book)
+                .orElseThrow(BookReturned::new);
 
         Emprestimo emprestimo = Emprestimo.builder()
                 .id(emprestimoSearch.getId())
